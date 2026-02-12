@@ -20,7 +20,7 @@ export default function Formfill() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/support",
+        "https://helthcare-1-30uf.onrender.com/api/support",
         support,
       );
       setResponse(res.data.aiSummary);
