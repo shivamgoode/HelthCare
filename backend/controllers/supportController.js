@@ -46,7 +46,7 @@ export const submitSupport = async (req, res) => {
 
     // 🔹 EMAIL TRANSPORTER
     const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  service: "smtp.gmail.com",
   port: 587,
   secure: false, 
   auth: {
