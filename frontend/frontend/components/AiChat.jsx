@@ -61,7 +61,7 @@ const AiChat = () => {
     setIsTyping(true);
 
     try {
-      const res = await axios.post("http://localhost:5001/api/chat", {
+      const res = await axios.post("https://helthcare-1-30uf.onrender.com/api/chat", {
         message: input,
       });
 
