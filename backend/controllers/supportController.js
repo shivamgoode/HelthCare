@@ -45,7 +45,7 @@ export const submitSupport = async (req, res) => {
     await newRequest.save();
 
     // 🔹 EMAIL TRANSPORTER
-   /* const transporter = nodemailer.createTransport({
+    {/* const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
@@ -103,5 +103,5 @@ export const submitSupport = async (req, res) => {
   } catch (error) {
     console.error("Support Error:", error.message);
     res.status(500).json({ error: error.message });
-  } */
+  } */}
 };
