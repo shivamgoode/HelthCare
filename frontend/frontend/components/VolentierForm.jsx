@@ -15,13 +15,13 @@ export default function VolentierForm() {
     try {
       const res = await axios.post(
         "https://helthcare-1-30uf.onrender.com/api/volunteer",
-        volunteer,
+        volunteer
       );
       setResponse(res.data.aiEvaluation);
     } catch (error) {
       console.error(error);
       setResponse(
-        "⚠️ Something went wrong while processing your registration.\nPlease try again.",
+        "⚠️ Something went wrong while processing your registration.\nPlease try again."
       );
     } finally {
       setLoading(false);
@@ -122,9 +122,18 @@ export default function VolentierForm() {
         </div>
       </section>
 
-      {/* ✅ Styled AI Response */}
+      {/* ✅ Styled AI Response with Close Button */}
       {response && (
-        <div className="max-w-3xl mx-auto mt-10 p-8 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 shadow-xl text-slate-700">
+        <div className="relative max-w-3xl mx-auto mt-10 p-8 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 shadow-xl text-slate-700">
+
+          {/* ❌ Close Button */}
+          <button
+            onClick={() => setResponse("")}
+            className="absolute top-4 right-5 text-gray-400 hover:text-red-500 text-xl font-bold transition"
+          >
+            ✕
+          </button>
+
           <div className="text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-4">
             AI Evaluation
           </div>
