@@ -54,7 +54,7 @@ export const registerVolunteer = async (req, res) => {
     await volunteer.save();
 
     // 🔹 EMAIL TRANSPORTER
-    {/* const transporter = nodemailer.createTransport({
+    {/*const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
@@ -107,9 +107,9 @@ export const registerVolunteer = async (req, res) => {
     res.json({
       message: "Volunteer registered & email sent successfully",
       aiEvaluation,
-    });
+    })*/}
   } catch (error) {
     console.error("Volunteer Error:", error.message);
     res.status(500).json({ error: error.message });
-  } */}
+  } 
 };
