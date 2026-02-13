@@ -1,6 +1,6 @@
 import Volunteer from "../models/Volunteer.js";
 import Groq from "groq-sdk";
-//import nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 export const registerVolunteer = async (req, res) => {
   try {
@@ -21,7 +21,7 @@ export const registerVolunteer = async (req, res) => {
         {
           role: "system",
           content:
-            "You are a professional healthcare volunteer coordinator. Evaluate volunteers and suggest best role and response should be professional",
+            "You are a professional healthcare volunteer coordinator. Evaluate volunteers and suggest best role and response should be professional.",
         },
         {
           role: "user",
@@ -53,63 +53,50 @@ export const registerVolunteer = async (req, res) => {
 
     await volunteer.save();
 
-    // 🔹 EMAIL TRANSPORTER
-    {/*const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
-
-    // 🔹 EMAIL TEMPLATE
-    const mailOptions = {
-      from: `"Chikitsak Volunteer Team" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: "Your Volunteer Registration - Chikitsak",
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2 style="color: #4F46E5;">Hello ${fullName},</h2>
-
-          <p>Thank you for registering as a volunteer with <strong>Chikitsak</strong>.</p>
-
-          <h3>Your Submitted Details:</h3>
-          <p><strong>Skills:</strong> ${skills}</p>
-          <p><strong>Availability:</strong> ${availability}</p>
-          <p><strong>Location:</strong> ${location || "Not Provided"}</p>
-
-          <h3>AI Evaluation:</h3>
-          <div style="background:#f4f4f4;padding:15px;border-radius:8px;">
-            ${aiEvaluation.replace(/\n/g, "<br/>")}
-          </div>
-
-          <p style="margin-top:25px;">
-            We will contact you soon regarding suitable opportunities.
-          </p>
-
-          <p style="margin-top:30px;">
-            Regards,<br/>
-            <strong>Chikitsak Team</strong>
-          </p>
-        </div>
-      `,
-    };
-
-    // 🔹 SEND EMAIL
-    await transporter.sendMail(mailOptions);
-
+    // 🔹 Send Response Immediately (IMPORTANT)
     res.json({
-      message: "Volunteer registered & email sent successfully",
+      success: true,
       aiEvaluation,
-    })*/}
+    });
+
+    // 🔹 Send Email (Non-blocking)
+    try {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Chikitsak Volunteer Team" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: "Your Volunteer Registration - Chikitsak",
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2>Hello ${fullName},</h2>
+            <p>Thank you for registering with Chikitsak.</p>
+            <h3>AI Evaluation:</h3>
+            <div style="background:#f4f4f4;padding:15px;border-radius:8px;">
+              ${aiEvaluation.replace(/\n/g, "<br/>")}
+            </div>
+            <p>Regards,<br/>Chikitsak Team</p>
+          </div>
+        `,
+      });
+    } catch (emailError) {
+      console.error("Email failed:", emailError.message);
+    }
+
   } catch (error) {
     console.error("Volunteer Error:", error.message);
     res.status(500).json({ error: error.message });
-  } 
+  }
 };
+
