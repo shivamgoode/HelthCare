@@ -1,6 +1,6 @@
 import Volunteer from "../models/Volunteer.js";
 import Groq from "groq-sdk";
-import nodemailer from "nodemailer";
+//import nodemailer from "nodemailer";
 
 export const registerVolunteer = async (req, res) => {
   try {
@@ -54,7 +54,7 @@ export const registerVolunteer = async (req, res) => {
     await volunteer.save();
 
     // 🔹 EMAIL TRANSPORTER
-    const transporter = nodemailer.createTransport({
+   /* const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
@@ -111,5 +111,5 @@ export const registerVolunteer = async (req, res) => {
   } catch (error) {
     console.error("Volunteer Error:", error.message);
     res.status(500).json({ error: error.message });
-  }
+  } */
 };
