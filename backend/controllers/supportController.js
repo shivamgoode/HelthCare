@@ -99,9 +99,9 @@ export const submitSupport = async (req, res) => {
     res.json({
       message: "Submitted successfully & email sent",
       aiSummary,
-    });
+    });*/}
   } catch (error) {
     console.error("Support Error:", error.message);
     res.status(500).json({ error: error.message });
-  } */}
+  } 
 };
